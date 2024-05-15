@@ -3,6 +3,7 @@ from sklearn.preprocessing import StandardScaler #imported for scaling
 from sklearn.model_selection import train_test_split #for spliting the data into test and train data
 from sklearn.linear_model import LogisticRegression #for training the model
 from sklearn.metrics import accuracy_score,classification_report #to check the accuracy
+import pickle as pickle
 
 
 def get_clean_data():
@@ -47,9 +48,9 @@ def create_model(data):
     #test the model
     #creating the predictions
     y_pred = model.predict(x_test)
-    #print the accuracy 
+    #print the accuracy and report
     print("the acciuracy of the model : ",accuracy_score(y_test,y_pred)) #The accuracy_score have two arguments: y_test (the true target variable of the test set) and y_pred (the predicted target variable of the test set). It returns the proportion of samples that were correctly classified by the model.
-    print("Classification Report: ",classification_report(y_test,y_pred))
+    print("Classification Report: ",classification_report(y_test,y_pred)) 
 
 
     return model,scaler
