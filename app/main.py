@@ -3,7 +3,8 @@ import os
 import streamlit as st
 import pickle as pickle
 import pandas as pd
-import plotly.graph_objects as go
+import plotly.graph_objects as go #to plot the graph
+import numpy as np #to get only values from the input_data dict into an array
 
 
 def get_clean_data():
@@ -98,9 +99,6 @@ def get_scaled_values(input_dict):
     return scaled_dict
 
     
-
-
-
 #drawing chart with the collected info dictionary
 def get_radar_chart(input_data):
 
@@ -163,6 +161,39 @@ def get_radar_chart(input_data):
     return fig
 
 
+#prediction works,firstly import the model and scaler
+def add_predictions(input_data):
+    # Get the current directory of the script
+    current_dir = os.path.dirname(__file__)
+    
+    # Construct the path to model.pkl
+    model_path = os.path.join(current_dir, '..', 'model', 'model.pkl')
+    
+    # Construct the path to scaler.pkl (assuming it's in the same directory as model.pkl)
+    scaler_path = os.path.join(current_dir, '..', 'model', 'scaler.pkl')
+    
+    # Load the model and scaler
+    model = pickle.load(open(model_path, "rb"))
+    scaler = pickle.load(open(scaler_path, "rb"))
+
+    input_array = np.array(list(input_data.values())).reshape(1,-1) #moved only values from dict into array
+
+    scaled_input_array = scaler.transform(input_array)
+
+    prediction = model.predict(scaled_input_array)
+    
+    st.subheader("Cell Cluster Prediction")
+    st.write("The Cell cluster is : ")
+
+    if prediction[0] == 0:
+        st.write("Benign")
+    else:
+        st.write("Malicious")
+
+    st.write("Probability of being Benign: ",model.predict_proba(scaled_input_array)[0][0]) # displaying the probability of the input data being classified as "Benign" using the trained machine learning model
+    st.write("Probability of being Malicious: ",model.predict_proba(scaled_input_array)[0][1]) #same for malicious
+    st.write("This app can assist medical professionals in making a diagnosis, but should not be used as a substitute for a professional diagnosis.")
+
 
 def main():
     st.set_page_config( #setting page config like page title,icon,layout and all
@@ -193,7 +224,7 @@ def main():
         st.plotly_chart(radar_chart)
 
     with col2:
-        st.write("this is column 2")  
+        add_predictions(input_data)
 
 
 
