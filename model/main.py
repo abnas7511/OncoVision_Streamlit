@@ -1,7 +1,9 @@
 import pandas as pd
 from sklearn.preprocessing import StandardScaler #imported for scaling
 from sklearn.model_selection import train_test_split #for spliting the data into test and train data
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LogisticRegression #for training the model
+from sklearn.metrics import accuracy_score,classification_report #to check the accuracy
+
 
 def get_clean_data():
     #imported the data using pandas
@@ -15,6 +17,9 @@ def get_clean_data():
 
     #print(data.head()) printed the first five entries
     return data
+
+
+
 
 #model creation
 def create_model(data):
@@ -38,9 +43,20 @@ def create_model(data):
     model = LogisticRegression()
     model.fit(x_train,y_train) #the fit method is used to train a machine learning model on a given dataset by learning the relationship between the input features and the target variable.
 
+
+    #test the model
+    #creating the predictions
+    y_pred = model.predict(x_test)
+    #print the accuracy 
+    print("the acciuracy of the model : ",accuracy_score(y_test,y_pred)) #The accuracy_score have two arguments: y_test (the true target variable of the test set) and y_pred (the predicted target variable of the test set). It returns the proportion of samples that were correctly classified by the model.
+    print("Classification Report: ",classification_report(y_test,y_pred))
+
+
     return model,scaler
 
+    
 
+    
 
 
 def main():
@@ -48,8 +64,6 @@ def main():
     #print(data.head()) , #data.info() to check the attributes
 
     model,scaler =  create_model(data)
-
-    #
 
 if __name__ == '__main__':
     main()
