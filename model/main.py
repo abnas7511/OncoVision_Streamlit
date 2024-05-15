@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.preprocessing import StandardScaler #imported for scaling
 from sklearn.model_selection import train_test_split #for spliting the data into test and train data
-from sklearn.linear_model import lo
+from sklearn.linear_model import LogisticRegression
 
 def get_clean_data():
     #imported the data using pandas
@@ -35,10 +35,10 @@ def create_model(data):
     )
 
     #train the model
+    model = LogisticRegression()
+    model.fit(x_train,y_train) #the fit method is used to train a machine learning model on a given dataset by learning the relationship between the input features and the target variable.
 
-
-
-    return
+    return model,scaler
 
 
 
@@ -47,7 +47,9 @@ def main():
     data = get_clean_data()
     #print(data.head()) , #data.info() to check the attributes
 
-    model =  create_model(data)
+    model,scaler =  create_model(data)
+
+    #
 
 if __name__ == '__main__':
     main()
