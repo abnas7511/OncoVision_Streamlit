@@ -64,7 +64,19 @@ def main():
     data = get_clean_data()
     #print(data.head()) , #data.info() to check the attributes
 
-    model,scaler =  create_model(data)
+    model, scaler =  create_model(data)
+
+    #everytime it'll train and it'll be time consuming for this we're using a method like
+    #export the model into a binary file and import it to app from there for this pickle is used
+
+    with open("model/model.pkl","wb") as f_model:  # Provide the file object
+        pickle.dump(model, f_model)
+
+    with open("model/scaler.pkl","wb") as f_scaler:  # Provide the file object
+        pickle.dump(scaler, f_scaler)
+
+    
+
 
 if __name__ == '__main__':
     main()
