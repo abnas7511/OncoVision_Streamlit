@@ -186,9 +186,9 @@ def add_predictions(input_data):
     st.write("The Cell cluster is : ")
 
     if prediction[0] == 0:
-        st.write("Benign")
+        st.write("<span class = 'diag benign'>Benign</span>",unsafe_allow_html=True)
     else:
-        st.write("Malicious")
+        st.write("<span class = 'diag malicious'>Malicious</span>",unsafe_allow_html=True)
 
     st.write("Probability of being Benign: ",model.predict_proba(scaled_input_array)[0][0]) # displaying the probability of the input data being classified as "Benign" using the trained machine learning model
     st.write("Probability of being Malicious: ",model.predict_proba(scaled_input_array)[0][1]) #same for malicious
@@ -203,6 +203,14 @@ def main():
         initial_sidebar_state="expanded" #initially the sidebar will be expanded
 
     )
+
+    current_dir = os.path.dirname(__file__)
+    
+    # Construct the path to model.pkl
+    styles_path = os.path.join(current_dir, '..', 'assets', 'styles.css')
+
+    with open(styles_path) as file:
+        st.markdown('<style>{}</style>'.format(file.read()), unsafe_allow_html=True)
 
     input_data = add_sidebar()
     #st.write(input_data) you can see the info from slider
