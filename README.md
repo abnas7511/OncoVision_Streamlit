@@ -1,4 +1,4 @@
-# Streamlit_Breast-Cancer-Predictor
+# OncoVision - Streamlit_Breast-Cancer-Predictor
 ML App for Breast Cancer Prediction using Streamlit 
 
 This project implements a Breast Cancer Predictor using Machine Learning techniques. The application predicts whether a breast mass is benign or malignant based on various cell nuclei measurements.
